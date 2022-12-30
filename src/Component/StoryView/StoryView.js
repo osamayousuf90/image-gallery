@@ -26,10 +26,9 @@ const StoryView = () => {
       next();
     }, list[currentIndex]?.dur);
 
-    return () => clearInterval(stoptimer)
-
-
+    return () => clearTimeout(stoptimer)
   }, [currentIndex]);
+
 
   const next = () => {
     if (currentIndex !== list?.length) {
@@ -50,12 +49,13 @@ const StoryView = () => {
   };
 
   const handleMouse = () => {
-     clearInterval(stoptimer)
+     clearTimeout(stoptimer)
   };
 
   const handleMouseOut = () => {
     setTimeout(() => {
-      next();
+      setCurrentIndex((prev) => prev + 1);
+      list[currentIndex].per = 100;
     },  list[currentIndex]?.dur)
   }
 
