@@ -2,6 +2,9 @@ import React from "react";
 import ProgressBar from "../ProgressBar/ProgressBar";
 import { useEffect, useState } from "react";
 import fakeData from "../../fakeData";
+import img1 from "../../assets/1.png";
+import img2 from "../../assets/2.png";
+import img3 from "../../assets/3.png";
 
 const StoryView = () => {
   // const [list, setList] = useState(fakeData);
@@ -10,9 +13,9 @@ const StoryView = () => {
 
 
   const stories = [
-    { id: 1, text: 'Story 1', per : 0 },
-    { id: 2, text: 'Story 2' , per : 0 },
-    { id: 3, text: 'Story 3' , per : 0},
+    { id: 1, img: img1, per : 0 },
+    { id: 2, img: img2 , per : 0 },
+    { id: 3, img: img3 , per : 0},
   ];
 
   const [list , setList] = useState(stories)
@@ -78,8 +81,12 @@ const StoryView = () => {
         </div>
 
         <div className="storyView_text">
-        { currentIndex === 0 ? "" : <button className="left" onClick={() => prev() }><i class="fa-solid fa-arrow-left"></i></button> }  
-        { list?.[currentIndex]?.text && <h2> { currentIndex === list?.length ? "End Of Story" : list?.[currentIndex]?.text}</h2>     }  
+          {currentIndex === 0 ? "" : <button className="left" onClick={() => prev()}><i class="fa-solid fa-arrow-left"></i></button>}  
+          
+
+          { currentIndex === list?.length ? <h2>End Of Story</h2> : <img src={list?.[currentIndex]?.img} alt="No" />}  
+          
+         
          { currentIndex === list?.length ? "" : <button className="right" onClick={() => next() } ><i class="fa-solid fa-arrow-right"></i></button> } 
         </div>
       </div>
