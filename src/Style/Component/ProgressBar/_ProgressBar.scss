@@ -1,13 +1,13 @@
 .progress-bar {
-    height: 20px;
+    height: 80px;
     width: 100%;
     background-color: #ddd;
     border-radius: 5px;
-    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    // color: black;
+
+
   }
   
-  .progress-bar-inner {
-    height: 20px;
-    width: 100%;
-    background-color: #4caf50;
-  }
+  

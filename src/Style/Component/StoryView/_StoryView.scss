@@ -1,3 +1,4 @@
+
 .storyView {
     width: 500px;
     height: 600px;
@@ -11,27 +12,40 @@
     padding: 10px 10px;
 
 
+    .swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal, .swiper-pagination-custom, .swiper-pagination-fraction {
+      bottom: 0px;
+      left: 0;
+      display: none;
+      width: 100%;
+    }
+    
+
+
     &_storyLength {
       width: 100%;
-      margin: 2px 0px;
-      padding: 8px 10px;
+      height: 120px;
+      // background-color: white;
+      // margin: 2px 0px;
+      padding: 10px 10px;
       // background-color: rgb(255, 255, 255);
       border-radius: 20px;  
       display: flex;
       align-items: center;
-      position: relative;
-      gap: 10px;
+      // position: relative;
+      // gap: 10px;
     }
 
 
-    &_dots {
-      width: 100%;
-      background-color: white;
-      height: 20px;
+    &_child {
+      // background-color: red;
+      padding: 20px 10px;
       position: relative;
-      border-radius: 20px;
-    }
 
+      img {
+        width: 100px;
+        cursor: pointer;
+      }
+    } 
 
     &_text{
       display: flex;

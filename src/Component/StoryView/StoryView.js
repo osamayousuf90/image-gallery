@@ -5,93 +5,65 @@ import img1 from "../../assets/1.png";
 import img2 from "../../assets/2.png";
 import img3 from "../../assets/3.png";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// import required modules
+import { FreeMode, Pagination } from "swiper";
+
 const StoryView = () => {
   // const [list, setList] = useState(fakeData);
   const [currentIndex, setCurrentIndex] = useState(0);
   const storyRef = useRef();
   var stoptimer;
+  const [select, setSelect] = useState(0);
 
   const stories = [
-    { id: 1, img: img1, per: 0, dur: 3000 },
-    { id: 2, img: img2, per: 0, dur: 3000 },
-    { id: 3, img: img3, per: 0, dur: 3000 },
+    { id: 1, img: img1, dur: 3000, active: false },
+    { id: 2, img: img2, dur: 3000 , active: false},
+    { id: 3, img: img3, dur: 3000 , active: false},
+    { id: 4, img: img3, dur: 3000 , active: false},
+    { id: 5, img: img3, dur: 3000 , active: false},
+    { id: 6, img: img3, dur: 3000 , active: false},
   ];
 
   const [list] = useState(stories);
   const [smallImg, setSmallImg] = useState(false);
 
-
-
   const next = () => {
-    if (currentIndex <= list?.length) {
-      setCurrentIndex((prev) => prev + 1);
-      list[currentIndex].per = 100;
-    } else {
-      clearInterval(stoptimer)
-      clearTimeout(stoptimer)
+    if (select !== list?.length) {
+      setSelect((prev) => prev + 1);
     }
   };
 
   const prev = () => {
-    if (currentIndex === 0) {
-      clearInterval(stoptimer)
-      clearTimeout(stoptimer)
-    } else {
-      setCurrentIndex((prev) => prev - 1);
-      list[currentIndex - 1].per = 0;
+    if (select !== 0) {
+      setSelect((prev) => prev - 1);
     }
   };
-
-  // const handleMouse = () => {
-  //   clearTimeout(stoptimer)
-  //   setSmallImg(true);
-  // };
-
-  // const handleMouseOut = () => {
-  //   setSmallImg(false)
-  //   if (currentIndex === list?.length) {
-  //     clearTimeout(stoptimer)
-  //   } else {
-  //     setTimeout(() => {
-  //       setCurrentIndex((prev) => prev + 1);
-  //       list[currentIndex].per = 100;
-
-  //   },  list[currentIndex]?.dur)
-  //   }
- 
-  // }
-
-
-  // useEffect(() => {
-  //   stoptimer = setTimeout(function () {
-  //     if (currentIndex <= list?.length) {
-  //       clearInterval(stoptimer)
-  //       clearTimeout(stoptimer)
-  //     } else {
-  //     next();
-  //     }
-  //  }, list[currentIndex]?.dur);
-
-  //  return () => clearTimeout(stoptimer)
-  // }, [currentIndex]);
-
-  
 
   return (
     <div>
       <div className="storyView">
         <div className="storyView_storyLength">
-          {list?.map((res) => {
+        <Swiper
+        slidesPerView={3}
+        spaceBetween={30}
+        freeMode={true}
+        pagination={{
+          clickable: true,
+        }}
+        modules={[FreeMode, Pagination]}
+            className="mySwiper">
+          {list?.map((res , index) => {
             return (
-              <div className="storyView_dots">
-                <ProgressBar res={res} />
-              </div>
-            );
+              <SwiperSlide> <div className="storyView_child"> <img id={select} style={{ border : select === index && "1px solid white" }} onClick={() => setSelect(index) } src={ res?.img } alt="" /> </div></SwiperSlide>            
+            )    
           })}
+      </Swiper>
         </div>
 
         <div className="storyView_text">
-          {currentIndex === 0 ? (
+          {select === 0 ? (
             ""
           ) : (
             <button className="left" onClick={() => prev()}>
@@ -99,24 +71,22 @@ const StoryView = () => {
             </button>
           )}
 
-          {currentIndex === list?.length ? (
+          {select === list?.length ? (
             <h2>End Of Story</h2>
           ) : (
             <img
-              // onMouseOut={() => handleMouseOut() }      
-              // onMouseOver={() => handleMouse()}
               ref={storyRef}
-              src={list?.[currentIndex]?.img}
+              src={ select ? list?.[select]?.img : list?.[0]?.img }
               alt="No"
             />
           )}
 
-          {currentIndex >= list?.length ? (
-            ""       
+          {select >= list?.length - 1 ? (
+            ""
           ) : (
             <button className="right" onClick={() => next()}>
-            <i class="fa-solid fa-arrow-right"></i>
-          </button>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
           )}
         </div>
       </div>
