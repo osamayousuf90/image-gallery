@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import ProgressBar from "../ProgressBar/ProgressBar";
 import { useEffect, useState } from "react";
-import fakeData from "../../fakeData";
 import img1 from "../../assets/1.png";
 import img2 from "../../assets/2.png";
 import img3 from "../../assets/3.png";
@@ -9,7 +8,6 @@ import img3 from "../../assets/3.png";
 const StoryView = () => {
   // const [list, setList] = useState(fakeData);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [color, setColor] = useState(0);
   const storyRef = useRef();
   var stoptimer;
 
@@ -19,28 +17,24 @@ const StoryView = () => {
     { id: 3, img: img3, per: 0, dur: 3000 },
   ];
 
-  const [list, setList] = useState(stories);
+  const [list] = useState(stories);
+  const [smallImg, setSmallImg] = useState(false);
 
-  useEffect(() => {
-     stoptimer = setTimeout(function() {
-      next();
-    }, list[currentIndex]?.dur);
-
-    return () => clearTimeout(stoptimer)
-  }, [currentIndex]);
 
 
   const next = () => {
-    if (currentIndex !== list?.length) {
+    if (currentIndex <= list?.length) {
       setCurrentIndex((prev) => prev + 1);
       list[currentIndex].per = 100;
     } else {
+      clearTimeout(stoptimer)
       return false;
     }
   };
 
   const prev = () => {
     if (currentIndex === 0) {
+      clearTimeout(stoptimer)
       return false;
     } else {
       setCurrentIndex((prev) => prev - 1);
@@ -49,15 +43,38 @@ const StoryView = () => {
   };
 
   const handleMouse = () => {
-     clearTimeout(stoptimer)
+    clearTimeout(stoptimer)
+    setSmallImg(true);
   };
 
   const handleMouseOut = () => {
-    setTimeout(() => {
-      setCurrentIndex((prev) => prev + 1);
-      list[currentIndex].per = 100;
+    setSmallImg(false);
+    if (currentIndex === list?.length) {
+      clearTimeout(stoptimer)
+    } else {
+      setTimeout(() => {
+        setCurrentIndex((prev) => prev + 1);
+        list[currentIndex].per = 100;
+
     },  list[currentIndex]?.dur)
+    }
+ 
   }
+
+
+  useEffect(() => {
+    stoptimer = setTimeout(function () {
+      if (currentIndex === list?.length) {
+        clearTimeout(stoptimer)
+      } else {
+      next();
+      }
+   }, list[currentIndex]?.dur);
+
+   return () => clearTimeout(stoptimer)
+  }, [currentIndex]);
+
+  
 
   return (
     <div>
@@ -84,7 +101,8 @@ const StoryView = () => {
           {currentIndex === list?.length ? (
             <h2>End Of Story</h2>
           ) : (
-          <img
+            <img
+              style={{ width : smallImg && "50%" }}    
               onMouseOut={() => handleMouseOut() }      
               onMouseOver={() => handleMouse()}
               ref={storyRef}
@@ -93,12 +111,12 @@ const StoryView = () => {
             />
           )}
 
-          {currentIndex === list?.length ? (
-            ""
+          {currentIndex >= list?.length ? (
+            ""       
           ) : (
             <button className="right" onClick={() => next()}>
-              <i class="fa-solid fa-arrow-right"></i>
-            </button>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
           )}
         </div>
       </div>
