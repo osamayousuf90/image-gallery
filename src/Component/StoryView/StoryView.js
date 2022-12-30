@@ -27,52 +27,53 @@ const StoryView = () => {
       setCurrentIndex((prev) => prev + 1);
       list[currentIndex].per = 100;
     } else {
+      clearInterval(stoptimer)
       clearTimeout(stoptimer)
-      return false;
     }
   };
 
   const prev = () => {
     if (currentIndex === 0) {
+      clearInterval(stoptimer)
       clearTimeout(stoptimer)
-      return false;
     } else {
       setCurrentIndex((prev) => prev - 1);
       list[currentIndex - 1].per = 0;
     }
   };
 
-  const handleMouse = () => {
-    clearTimeout(stoptimer)
-    setSmallImg(true);
-  };
+  // const handleMouse = () => {
+  //   clearTimeout(stoptimer)
+  //   setSmallImg(true);
+  // };
 
-  const handleMouseOut = () => {
-    setSmallImg(false);
-    if (currentIndex === list?.length) {
-      clearTimeout(stoptimer)
-    } else {
-      setTimeout(() => {
-        setCurrentIndex((prev) => prev + 1);
-        list[currentIndex].per = 100;
+  // const handleMouseOut = () => {
+  //   setSmallImg(false)
+  //   if (currentIndex === list?.length) {
+  //     clearTimeout(stoptimer)
+  //   } else {
+  //     setTimeout(() => {
+  //       setCurrentIndex((prev) => prev + 1);
+  //       list[currentIndex].per = 100;
 
-    },  list[currentIndex]?.dur)
-    }
+  //   },  list[currentIndex]?.dur)
+  //   }
  
-  }
+  // }
 
 
-  useEffect(() => {
-    stoptimer = setTimeout(function () {
-      if (currentIndex === list?.length) {
-        clearTimeout(stoptimer)
-      } else {
-      next();
-      }
-   }, list[currentIndex]?.dur);
+  // useEffect(() => {
+  //   stoptimer = setTimeout(function () {
+  //     if (currentIndex <= list?.length) {
+  //       clearInterval(stoptimer)
+  //       clearTimeout(stoptimer)
+  //     } else {
+  //     next();
+  //     }
+  //  }, list[currentIndex]?.dur);
 
-   return () => clearTimeout(stoptimer)
-  }, [currentIndex]);
+  //  return () => clearTimeout(stoptimer)
+  // }, [currentIndex]);
 
   
 
@@ -102,9 +103,8 @@ const StoryView = () => {
             <h2>End Of Story</h2>
           ) : (
             <img
-              style={{ width : smallImg && "50%" }}    
-              onMouseOut={() => handleMouseOut() }      
-              onMouseOver={() => handleMouse()}
+              // onMouseOut={() => handleMouseOut() }      
+              // onMouseOver={() => handleMouse()}
               ref={storyRef}
               src={list?.[currentIndex]?.img}
               alt="No"
